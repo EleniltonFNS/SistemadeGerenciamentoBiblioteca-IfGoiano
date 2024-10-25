@@ -1,3 +1,5 @@
+package SGB;
+
 import java.util.Date;
 
 public class Emprestimo {
@@ -6,5 +8,10 @@ public class Emprestimo {
     Date dataPrevistaDevolucao;
     boolean statusEmprestimo;
     
+    //Metodos
+    void fazerEmprestimo (int diasEspretado, Livros livro){
+        
+    }
     
+    void registrarDevolucao
 }
