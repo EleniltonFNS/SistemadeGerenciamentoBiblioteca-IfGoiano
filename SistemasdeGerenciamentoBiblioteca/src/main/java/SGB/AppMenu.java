@@ -1,8 +1,5 @@
 package SGB;
 
-
-
-
 public class AppMenu {
     public static void main(String[] args) {
         System.out.println("--------Sistema de Gerenciamento de Biblioteca---------");
@@ -15,5 +12,5 @@ public class AppMenu {
         System.out.println("6 - Listar Usuários");
         System.out.println("7 - Verificar Empréstimos Ativos");
         System.out.println("8 - Sair");
-    }
+    }    
 }
