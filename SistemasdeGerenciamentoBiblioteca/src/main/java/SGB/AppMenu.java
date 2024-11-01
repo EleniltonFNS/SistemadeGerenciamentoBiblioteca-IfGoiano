@@ -33,7 +33,13 @@ public class AppMenu {
                 livros.num_exemplares = scan.next();
                 break;
             case 2:
-                //....
+                System.out.println("CADASTRO DE USUÁRIOS");
+                System.out.print("Nome: ");
+                clientes.nome = scan.next();
+                System.out.print("E-mail: ");
+                clientes.email = scan.next();
+                System.out.print("Número de identificação: ");
+                clientes.id = scan.next();
                 break;
             case 3:
                 //....
