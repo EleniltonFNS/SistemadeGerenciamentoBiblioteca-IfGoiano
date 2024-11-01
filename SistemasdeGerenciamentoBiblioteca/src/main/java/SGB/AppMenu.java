@@ -22,7 +22,15 @@ public class AppMenu {
         
         switch (opcMenu){
             case 1:
-                //....
+                System.out.println("CADASTRO DE LIVROS");
+                System.out.print("Título: ");
+                livros.titulo = scan.next();
+                System.out.print("Autor: ");
+                livros.autor = scan.next();
+                System.out.print("Ano de publicação: ");
+                livros.ano_publi = scan.next();
+                System.out.print("Número de exemplares disponíveis: ");
+                livros.num_exemplares = scan.next();
                 break;
             case 2:
                 //....
