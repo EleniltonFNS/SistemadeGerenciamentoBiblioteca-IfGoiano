@@ -28,9 +28,9 @@ public class AppMenu {
                 System.out.print("Autor: ");
                 livros.autor = scan.next();
                 System.out.print("Ano de publicação: ");
-                livros.ano_publi = scan.next();
+                livros.ano_publi = scan.nextInt();
                 System.out.print("Número de exemplares disponíveis: ");
-                livros.num_exemplares = scan.next();
+                livros.num_exemplares = scan.nextInt();
                 break;
             case 2:
                 System.out.println("CADASTRO DE USUÁRIOS");
@@ -39,10 +39,16 @@ public class AppMenu {
                 System.out.print("E-mail: ");
                 clientes.email = scan.next();
                 System.out.print("Número de identificação: ");
-                clientes.id = scan.next();
+                clientes.id = scan.nextInt();
                 break;
             case 3:
-                //....
+                System.out.println("EMPRÉSTIMO DE LIVRO");
+                System.out.println("Nome de usuário: ");
+                Emprestimos.usu_emp = scan.next();
+                System.out.print("Data do empréstimo: ");
+                Emprestimos.dataEmprestimo = scan.next();
+                Emprestimos.statusEmprestimo = true;
+                livros.num_exemplares -= 1;
                 break;
             case 4:
                 //....
