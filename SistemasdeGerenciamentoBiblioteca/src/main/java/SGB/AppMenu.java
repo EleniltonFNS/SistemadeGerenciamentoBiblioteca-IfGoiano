@@ -42,6 +42,7 @@ public class AppMenu {
                 clientes.id = scan.nextInt();
                 break;
             case 3:
+                Conta cl = new Conta();
                 System.out.println("EMPRÉSTIMO DE LIVRO");
                 System.out.println("Nome de usuário: ");
                 Emprestimos.usu_emp = scan.next();
@@ -51,7 +52,13 @@ public class AppMenu {
                 livros.num_exemplares -= 1;
                 break;
             case 4:
-                //....
+                System.out.println("DEVOLUÇÃO DE LIVRO");
+                System.out.println("Nome de usuário: ");
+                Emprestimos.usu_emp = scan.next();
+                System.out.print("Data da devolução: ");
+                Emprestimos.dataPrevistaDevolucao = scan.next();
+                Emprestimos.statusEmprestimo = false;
+                livros.num_exemplares -= 1;
                 break;
             case 5:
                 //....
