@@ -20,17 +20,19 @@ public class AppMenu {
         System.out.println("Qual opção você deseja? ");
         int opcMenu = scan.nextInt();
         
+        Livros[] livro = new Livros[5]; //Arreio de livros
+        
         switch (opcMenu){
             case 1:
                 System.out.println("CADASTRO DE LIVROS");
                 System.out.print("Título: ");
-                livros.titulo = scan.next();
+                livro.titulo = scan.next();
                 System.out.print("Autor: ");
-                livros.autor = scan.next();
+                livro.autor = scan.next();
                 System.out.print("Ano de publicação: ");
-                livros.ano_publi = scan.nextInt();
+                livro_aux.ano_publi = scan.nextInt();
                 System.out.print("Número de exemplares disponíveis: ");
-                livros.num_exemplares = scan.nextInt();
+                livro_aux.num_exemplares = scan.nextInt();
                 break;
             case 2:
                 System.out.println("CADASTRO DE USUÁRIOS");
@@ -49,7 +51,7 @@ public class AppMenu {
                 System.out.print("Data do empréstimo: ");
                 Emprestimos.dataEmprestimo = scan.next();
                 Emprestimos.statusEmprestimo = true;
-                livros.num_exemplares -= 1;
+                livro.num_exemplares -= 1;
                 break;
             case 4:
                 System.out.println("DEVOLUÇÃO DE LIVRO");
@@ -58,7 +60,7 @@ public class AppMenu {
                 System.out.print("Data da devolução: ");
                 Emprestimos.dataPrevistaDevolucao = scan.next();
                 Emprestimos.statusEmprestimo = false;
-                livros.num_exemplares -= 1;
+                livro.num_exemplares += 1;
                 break;
             case 5:
                 //....
