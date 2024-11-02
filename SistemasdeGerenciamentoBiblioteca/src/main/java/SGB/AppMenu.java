@@ -26,13 +26,19 @@ public class AppMenu {
             case 1:
                 System.out.println("CADASTRO DE LIVROS");
                 System.out.print("Título: ");
-                livro.titulo = scan.next();
+                String titulo = scan.next();
+                System.out.print("Id do livro: ");
+                int id = scan.nextByte();
                 System.out.print("Autor: ");
-                livro.autor = scan.next();
+                String autor = scan.next();
+                System.out.print("Editora: ");
+                String editora = scan.next();
                 System.out.print("Ano de publicação: ");
-                livro_aux.ano_publi = scan.nextInt();
+                int ano_publi = scan.nextInt();
                 System.out.print("Número de exemplares disponíveis: ");
-                livro_aux.num_exemplares = scan.nextInt();
+                int num_exemplares = scan.nextInt();
+                
+                livro[i] = new Livros(id, titulo, autor, editora, ano_publi, num_exemplares);
                 break;
             case 2:
                 System.out.println("CADASTRO DE USUÁRIOS");
@@ -51,7 +57,7 @@ public class AppMenu {
                 System.out.print("Data do empréstimo: ");
                 Emprestimos.dataEmprestimo = scan.next();
                 Emprestimos.statusEmprestimo = true;
-                livro.num_exemplares -= 1;
+                livro.num_exemplares[i] -= 1;
                 break;
             case 4:
                 System.out.println("DEVOLUÇÃO DE LIVRO");
@@ -60,7 +66,7 @@ public class AppMenu {
                 System.out.print("Data da devolução: ");
                 Emprestimos.dataPrevistaDevolucao = scan.next();
                 Emprestimos.statusEmprestimo = false;
-                livro.num_exemplares += 1;
+                livro.num_exemplares[i] += 1;
                 break;
             case 5:
                 //....

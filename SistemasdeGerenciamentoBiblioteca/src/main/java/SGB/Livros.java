@@ -52,4 +52,9 @@ public class Livros {
     this.num_exemplares = num_exemplares;
   }
 
+  @Override
+  public String toString(){ //Utilizar para imprimir os livros.
+    return " | ID: " + id_livro + "\n | Título: " + titulo + "\n | Autor: " + autor + "\n | Editora: " + editora +
+            "\n | Ano de Publicação: " + ano_publi + "\n | Números de Exemplares: " + num_exemplares;
+  }
 }
