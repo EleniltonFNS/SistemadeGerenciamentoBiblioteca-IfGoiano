@@ -63,7 +63,12 @@ public class Livros {
 
   @Override
   public String toString(){ //Utilizar para imprimir os livros.
-    return " | ID: " + id_livro + "\n | Título: " + titulo + "\n | Autor: " + autor + "\n | Editora: " + editora +
-            "\n | Ano de Publicação: " + ano_publi + "\n | Números de Exemplares: " + num_exemplares;
+    if(num_exemp_disp == num_exemplares) {
+      return " | ID: " + id_livro + "\n | Título: " + titulo + "\n | Autor: " + autor + "\n | Editora: " + editora +
+              "\n | Ano de Publicação: " + ano_publi + "\n | Números de Exemplares: " + num_exemplares;
+    } else {
+      return " | ID: " + id_livro + "\n | Título: " + titulo + "\n | Autor: " + autor + "\n | Editora: " + editora + "\n | Ano de Publicação: "
+              + ano_publi + "\n | Números de Exemplares: " + num_exemplares + "\n | Exemplares Disponíveis: " + num_exemp_disp;
+    }
   }
 }
