@@ -1,6 +1,6 @@
 package SGB;
 
-public class Usuarios {
+public class Clientes {
     private String nome;
     private boolean temEmprestimo;
 
@@ -8,7 +8,7 @@ public class Usuarios {
         return nome;
     }
 
-    public boolean getTemEmprestimo() { //Verifica se "temEmprestimo" é verdadeiro ou falso
+    public boolean getEmprestimoUsuario() { //Verifica se "temEmprestimo" é verdadeiro ou falso
         return temEmprestimo;
     }
     public void emprestimo_true(){ //Marca que o usuario está com algum livro emprestado

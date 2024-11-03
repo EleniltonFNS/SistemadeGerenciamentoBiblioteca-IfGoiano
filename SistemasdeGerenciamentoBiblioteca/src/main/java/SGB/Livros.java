@@ -55,10 +55,10 @@ public class Livros {
   }
 
   public int get_num_exemp_disp(){ //Ver numero de exemplares
-    return num_exemplares;
+    return num_exemp_disp;
   }
-  public void atualizacaoNum_exemp(int valor){
-    this.num_exemplares += valor;
+  public void atualizarNumExemp(int valor){
+    this.num_exemp_disp +=valor;
   }
 
   @Override

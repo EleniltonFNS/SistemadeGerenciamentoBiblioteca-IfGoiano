@@ -23,7 +23,7 @@ public class AppMenu {
         Livros[] livro = new Livros[5]; //Arreio de livros
         
         switch (opcMenu){
-            case 1:
+            case 1: //Cadastro de Livros
                 System.out.println("CADASTRO DE LIVROS");
                 System.out.print("Título: ");
                 String titulo = scan.next();
@@ -40,7 +40,8 @@ public class AppMenu {
                 
                 livro[i] = new Livros(id, titulo, autor, editora, ano_publi, num_exemplares);
                 break;
-            case 2:
+
+            case 2: //Cadastro de Usuários
                 System.out.println("CADASTRO DE USUÁRIOS");
                 System.out.print("Nome: ");
                 clientes.nome = scan.next();
@@ -49,42 +50,47 @@ public class AppMenu {
                 System.out.print("Número de identificação: ");
                 clientes.id = scan.nextInt();
                 break;
-            case 3:
+
+            case 3: //Realizar Empréstimos
                 Conta cl = new Conta();
                 System.out.println("EMPRÉSTIMO DE LIVRO");
                 System.out.println("Nome de usuário: ");
                 Emprestimos.usu_emp = scan.next();
                 System.out.print("Data do empréstimo: ");
                 Emprestimos.dataEmprestimo = scan.next();
-                Emprestimos.statusEmprestimo = true;
+                emprestimos.livro.statusEmprestimo = true;
                 livro.num_exemplares[i] -= 1;
                 break;
-            case 4:
+
+            case 4: //Devolução de Livros
                 System.out.println("DEVOLUÇÃO DE LIVRO");
                 System.out.println("Nome de usuário: ");
                 Emprestimos.usu_emp = scan.next();
                 System.out.print("Data da devolução: ");
                 Emprestimos.dataPrevistaDevolucao = scan.next();
-                Emprestimos.statusEmprestimo = false;
+                emprestimos.livro.statusEmprestimo = true;
                 livro.num_exemplares[i] += 1;
                 break;
-            case 5:
+
+            case 5: //Lista de Livros
                 //....
                 break;
-            case 6:
+
+            case 6: //Lista de Usuários
                 //....
                 break;
-            case 7:
+
+            case 7: //Livros Disponíveis
                 //....
                 break;
-            case 8:
+
+            case 8: //Sair
                 //....
                 break;
+
             default:
                 //....
                 break;
         }
-        
-        
     }    
 }
