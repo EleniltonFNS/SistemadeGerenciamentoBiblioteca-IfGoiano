@@ -7,7 +7,7 @@ public class Livros {
   private String editora;
   private int ano_publi;
   private int num_exemplares;
-  private boolean disponivel;
+  private int num_exemp_disp;
   
   // Todo livro tem que ter id, titulo, autor, editora, ano que foi publicado e numero de exemplares;
   public Livros(int id_livro, String titulo, String autor, String editora, int ano_publi, int num_exemplares) {
@@ -17,7 +17,7 @@ public class Livros {
     this.editora = editora;
     this.ano_publi = ano_publi;
     this.num_exemplares = num_exemplares;
-    this.disponivel = true;
+    this.num_exemp_disp = num_exemplares;
   }
 
   public String get_Titulo(){ //Ver titulo
@@ -54,11 +54,11 @@ public class Livros {
     this.num_exemplares = num_exemplares;
   }
 
-  public void disponivel_true(){ //Marca que esta disponível para emprestimo
-    disponivel = true;
+  public int get_num_exemp_disp(){ //Ver numero de exemplares
+    return num_exemplares;
   }
-  public void disponivel_false(){ //Marca que esta indisponivel para emprestimo
-    disponivel = false;
+  public void atualizacaoNum_exemp(int valor){
+    this.num_exemplares += valor;
   }
 
   @Override
