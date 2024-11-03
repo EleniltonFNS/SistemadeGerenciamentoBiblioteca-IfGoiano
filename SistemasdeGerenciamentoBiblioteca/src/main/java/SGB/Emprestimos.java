@@ -8,14 +8,14 @@ public class Emprestimos {
     private Clientes cliente;
     private LocalDate dataEmprestimo;
     private LocalDate dataPrevistaDevolucao;
-    
+
     //Métodos
-    public boolean registrarEmprestimo (Livros livro, Clientes usuario, LocalDate dataPrevistaDevolucao) {
+    public boolean registrarEmprestimo (Livros livro, Clientes cliente, LocalDate dataPrevistaDevolucao) {
         try {
-            if (!usuario.getEmprestimoUsuario() && livro.get_num_exemp_disp() > 0) {
+            if (!cliente.getEmprestimoCliente() && livro.get_num_exemp_disp() > 0) {
                 //Verifica se tem livro não está emprestado a alguem e se o usuário não tem nenhum livro empretado
                 this.livro = livro;
-                this.cliente = usuario;
+                this.cliente = cliente;
                 this.dataEmprestimo = LocalDate.now();
                 this.dataPrevistaDevolucao = dataPrevistaDevolucao;
                 this.cliente.emprestimo_true();
@@ -24,7 +24,7 @@ public class Emprestimos {
 
             } else if (livro.get_num_exemp_disp() == 0) {//Caso o livro esteja emprestado a alguém
                 System.out.println(" Nenhum livro disponível para empréstimo. ");
-            } else if (usuario.getEmprestimoUsuario()) { //Caso o usuário já tenha algum livro empretado
+            } else if (cliente.getEmprestimocliente()) { //Caso o usuário já tenha algum livro empretado
                 System.out.println(" Usuário já possui emprestimo realizado. ");
             }
         } catch (Exception e) {
@@ -33,9 +33,9 @@ public class Emprestimos {
         return false;
     }
 
-    public boolean registrarDevolucao(Livros livro, Clientes usuario) {
+    public boolean registrarDevolucao(Livros livro, Clientes cliente) {
         try {
-            if(usuario.getEmprestimoUsuario() && livro.get_num_exemp_disp() != livro.get_num_exemplares()){
+            if(cliente.getEmprestimoCliente() && livro.get_num_exemp_disp() != livro.get_num_exemplares()){
                 //Verifica se o livro está emprestado
                 this.cliente.emprestimo_false();
                 this.livro.atualizarNumExemp(1);
@@ -47,7 +47,7 @@ public class Emprestimos {
 
             } else if (livro.get_num_exemp_disp() == livro.get_num_exemplares()){
                 System.out.println(" Não há livros emprestados para devolução ");
-            } else if (!usuario.getEmprestimoUsuario()) {
+            } else if (!cliente.getEmprestimoCliente()) {
                 System.out.println(" Usuário não possui empréstimos em seu nome. ");
             }
         } catch (Exception e) {
