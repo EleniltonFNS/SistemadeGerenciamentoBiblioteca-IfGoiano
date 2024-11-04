@@ -6,8 +6,10 @@ import java.util.Scanner;
 
 public class AppMenu {
     public static void main(String[] args) {
+        
         Scanner scan = new Scanner(System.in);
         int opcMenu;
+        
         do {
             System.out.println("||||||||||Sistema de Gerenciamento de Biblioteca||||||||||");
             System.out.println("Opções disponíveis: ");
@@ -51,11 +53,11 @@ public class AppMenu {
                 case 2: //Cadastro de Usuários
                     System.out.println("CADASTRO DE USUÁRIOS");
                     System.out.print("Nome: ");
-                    clientes.nome = scan.next();
+                    String nome = scan.next();
                     System.out.print("E-mail: ");
-                    clientes.email = scan.next();
+                    String email = scan.next();
                     System.out.print("Número de identificação: ");
-                    clientes.id = scan.nextInt();
+                    int id = scan.nextInt();
                     break;
 
                 case 3: //Realizar Empréstimos
@@ -166,7 +168,10 @@ public class AppMenu {
                     break;
 
                 case 5: //Lista de Livros
-                    //....
+                    System.out.println("LISTAGEM DE LIVROS DO SISTEMA");
+                    Livros livro = new Livros();
+                    
+                    System.out.println(toString());
                     break;
 
                 case 6: //Lista de Usuários
