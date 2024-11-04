@@ -23,12 +23,12 @@ public class Emprestimos {
                 return true; //Confirma que o emprestimo foi efetuado
 
             } else if (livro.get_num_exemp_disp() == 0) {//Caso o livro esteja emprestado a alguém
-                System.out.println(" Nenhum livro disponível para empréstimo. ");
-            } else if (cliente.getEmprestimocliente()) { //Caso o usuário já tenha algum livro empretado
-                System.out.println(" Usuário já possui emprestimo realizado. ");
+                System.out.println(" - Nenhum livro disponível para empréstimo. ");
+            } else if (cliente.getEmprestimoCliente()) { //Caso o usuário já tenha algum livro empretado
+                System.out.println(" - Usuário já possui emprestimo realizado. ");
             }
         } catch (Exception e) {
-            System.out.println(" Ocorreu um erro ao registrar emprestimo. ");
+            System.out.println(" - Ocorreu um erro ao registrar emprestimo. ");
         }
         return false;
     }
@@ -46,18 +46,13 @@ public class Emprestimos {
                 return true; //confirma que a devolução foi efetivada
 
             } else if (livro.get_num_exemp_disp() == livro.get_num_exemplares()){
-                System.out.println(" Não há livros emprestados para devolução ");
+                System.out.println(" - Não há livros emprestados para devolução ");
             } else if (!cliente.getEmprestimoCliente()) {
-                System.out.println(" Usuário não possui empréstimos em seu nome. ");
+                System.out.println(" - Usuário não possui empréstimos em seu nome. ");
             }
         } catch (Exception e) {
-            System.out.println(" Ocorreu um erro ao registrar emprestimo. ");
+            System.out.println(" - Ocorreu um erro ao registrar emprestimo. ");
         }
         return false;
-    }
-
-    public boolean adiarEntrega(LocalDate dataEntrega){
-        this.dataPrevistaDevolucao = dataEntrega;
-        return true;
     }
 }

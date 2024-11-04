@@ -20,6 +20,10 @@ public class Livros {
     this.num_exemp_disp = num_exemplares;
   }
 
+  public int getId_livro() {
+    return id_livro;
+  }
+
   public String get_Titulo(){ //Ver titulo
     return titulo;
   }
