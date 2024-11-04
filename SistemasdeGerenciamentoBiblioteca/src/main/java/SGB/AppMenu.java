@@ -47,17 +47,23 @@ public class AppMenu {
                     System.out.print("Número de exemplares disponíveis: ");
                     int num_exemplares = scan.nextInt();
 
-                    livro[i] = new Livros(id, titulo, autor, editora, ano_publi, num_exemplares);
+                    // Adiciona o novo livro ao array de livros
+                    livro[contadorLivro] = new Livros(id, titulo, autor, editora, ano_publi, num_exemplares);
+                    contadorLivro++;
                     break;
 
                 case 2: //Cadastro de Usuários
                     System.out.println("CADASTRO DE USUÁRIOS");
                     System.out.print("Nome: ");
                     String nome = scan.next();
-                    System.out.print("E-mail: ");
+                    System.out.print("Id do cliente: ");
+                    int idCliente = scan.nextByte();
+                    System.out.print("Endereço: ");
+                    String endereco = scan.next();
+                    System.out.print("Telefone: ");
+                    String telefone = scan.next();
+                    System.out.print("Email: ");
                     String email = scan.next();
-                    System.out.print("Número de identificação: ");
-                    int id = scan.nextInt();
                     break;
 
                 case 3: //Realizar Empréstimos
@@ -158,36 +164,51 @@ public class AppMenu {
                     break;
 
                 case 4: //Devolução de Livros
-                    System.out.println("DEVOLUÇÃO DE LIVRO");
-                    System.out.println("Nome de usuário: ");
-                    Emprestimos.usu_emp = scan.next();
-                    System.out.print("Data da devolução: ");
-                    Emprestimos.dataPrevistaDevolucao = scan.next();
-                    emprestimos.livro.statusEmprestimo = true;
-                    livro.num_exemplares[i] += 1;
+                    System.out.println("DEVOLUÇÃO DE LIVROS");
+                    System.out.print("ID do empréstimo: ");
+                    int idEmprestimo = scan.nextInt();
+                    for (int i = 0; i < emprestimo.length; i++) {
+                        if (emprestimo[i] != null && emprestimo[i].getIdEmprestimo() == idEmprestimo) {
+                            emprestimo[i].devolverLivro();
+                            System.out.println("Livro devolvido com sucesso!");
+                            break;
+                        }
+                    }
                     break;
 
                 case 5: //Lista de Livros
                     System.out.println("LISTAGEM DE LIVROS DO SISTEMA");
-                    Livros livro = new Livros();
-                    
-                    System.out.println(toString());
+                    for (int i = 0; i < livro.length; i++) {
+                        if (livro[i] != null) {
+                            System.out.println(livro[i].toString());
+                        }
+                    }
                     break;
 
                 case 6: //Lista de Usuários
-                    //....
+                    System.out.println("LISTAGEM DE USUÁRIOS DO SISTEMA");
+                    for (int i = 0; i < cliente.length; i++) {
+                        if (cliente[i] != null) {
+                            System.out.println(cliente[i].toString());
+                        }
+                    }
                     break;
 
                 case 7: //Livros Disponíveis
-                    //....
+                    System.out.println("LIVROS DISPONÍVEIS PARA EMPRÉSTIMO");
+                    for (int i = 0; i < livro.length; i++) {
+                        if (livro[i].statusEmprestimo == true) {
+                            System.out.println(livro[i].toString());
+                        }
+                    }
                     break;
 
                 case 8: //Sair
-                    //....
+                    System.out.println("Saindo do sistema. Obrigado por utilizar o Sistema de Gerenciamento de Biblioteca!")
                     break;
 
                 default:
-                    //....
+                    System.out.println("Opção inválida. Tente novamente.");
                     break;
             }
         } while (opcMenu != 9);
