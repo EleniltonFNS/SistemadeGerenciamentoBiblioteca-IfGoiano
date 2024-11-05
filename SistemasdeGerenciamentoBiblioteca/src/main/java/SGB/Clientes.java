@@ -26,7 +26,7 @@ public class Clientes {
         return idCliente;
     }
 
-    public boolean getEmprestimoCliente() { //Verifica se "temEmprestimo" é verdadeiro ou falso
+    public boolean getTemEmprestimo() { //Verifica se "temEmprestimo" é verdadeiro ou falso
         return temEmprestimo;
     }
     public void emprestimo_true(){ //Marca que o cliente está com algum livro emprestado
@@ -35,4 +35,12 @@ public class Clientes {
     public void emprestimo_false(){ //Marca que o cliente não está com nenhum livro
         temEmprestimo = false;
     }
+    @Override
+    public String toString (){
+        return " ID:"+ idCliente"\n Nome:"+nome+"\n Email:"+email+"\n CPF:"+cpf+"\n Telefone:"+telefone;
+        
+    }
 }
+
+
+
