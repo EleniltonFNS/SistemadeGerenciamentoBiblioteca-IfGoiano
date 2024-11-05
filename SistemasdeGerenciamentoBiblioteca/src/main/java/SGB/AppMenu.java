@@ -228,22 +228,26 @@ public class AppMenu {
                     }
                     break;
 
-                case 6: //Lista de Usuários
-                    System.out.println("LISTAGEM DE USUÁRIOS DO SISTEMA");
+                case 6: //Lista de Clientes
+                    System.out.println(" -=-=- LISTAGEM DE USUÁRIOS DO SISTEMA -=-=- ");
                     for (int i = 0; i < cliente.length; i++) {
                         if (cliente[i] != null) {
+                            System.out.println(" ---------------------------------- \n");
                             System.out.println(cliente[i].toString());
                         }
                     }
+                    System.out.println(" ---------------------------------- \n");
                     break;
 
-                case 7: //Livros Disponíveis
-                    System.out.println("LIVROS DISPONÍVEIS PARA EMPRÉSTIMO");
-                    for (int i = 0; i < livro.length; i++) {
-                        if (livro[i].statusEmprestimo == true) {
-                            System.out.println(livro[i].toString());
+                case 7: //Lista clientes com emprestimos ativos
+                    System.out.println(" -=-=- CLIENTES COM EMPRÉSTIMOS ATIVOS -=-=- ");
+                    for (int i = 0; i < cliente.length; i++) {
+                        if (cliente[i].getTemEmprestimo() == true) {
+                            System.out.println(" ---------------------------------- \n");
+                            System.out.println(cliente[i].toString());
                         }
                     }
+                    System.out.println(" ---------------------------------- \n");
                     break;
 
                 case 8: //Salvar cadastros em arquivos de textos
