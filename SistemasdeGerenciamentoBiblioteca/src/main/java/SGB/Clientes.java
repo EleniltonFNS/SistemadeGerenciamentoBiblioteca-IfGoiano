@@ -8,6 +8,16 @@ public class Clientes {
     private String cpf;
     private String telefone;
     
+    public Clientes (int idCliente, String nome, String email,String  cpf, String telefone) {
+        this.idCliente=idCliente;
+        this.nome=nome;
+        this.email=email;
+        this.cpf=cpf;
+        this.telefone=telefone;
+        this.temEmprestimo=false;
+        
+    }
+    
     public String getNome() {
         return nome;
     }
