@@ -1,16 +1,19 @@
 package SGB;
 
 public class Clientes {
-    private int IdCliente;
+    private int idCliente;
     private String nome;
     private boolean temEmprestimo;
-
+    private String email;
+    private String cpf;
+    private String telefone;
+    
     public String getNome() {
         return nome;
     }
 
     public int getIdCliente() {
-        return IdCliente;
+        return idCliente;
     }
 
     public boolean getEmprestimoCliente() { //Verifica se "temEmprestimo" é verdadeiro ou falso
