@@ -55,4 +55,8 @@ public class Emprestimos {
         }
         return false;
     }
+
+    public int getIdCliente() {
+        return cliente.getIdCliente();
+    }
 }
