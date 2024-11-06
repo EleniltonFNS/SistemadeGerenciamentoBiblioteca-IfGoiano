@@ -12,19 +12,19 @@ public class Emprestimos {
     //Métodos
     public boolean registrarEmprestimo (Livros livro, Clientes cliente, LocalDate dataPrevistaDevolucao) {
         try {
-            if (!cliente.getEmprestimoCliente() && livro.get_num_exemp_disp() > 0) {
+            if (!cliente.getTemEmprestimo() && livro.get_num_exemp_disp() > 0) {
                 //Verifica se tem livro não está emprestado a alguem e se o usuário não tem nenhum livro empretado
                 this.livro = livro;
                 this.cliente = cliente;
                 this.dataEmprestimo = LocalDate.now();
                 this.dataPrevistaDevolucao = dataPrevistaDevolucao;
-                this.cliente.emprestimo_true();
+                this.cliente.emprestimo_true(livro);
                 this.livro.atualizarNumExemp(-1);
                 return true; //Confirma que o emprestimo foi efetuado
 
             } else if (livro.get_num_exemp_disp() == 0) {//Caso o livro esteja emprestado a alguém
                 System.out.println(" - Nenhum livro disponível para empréstimo. ");
-            } else if (cliente.getEmprestimoCliente()) { //Caso o usuário já tenha algum livro empretado
+            } else if (cliente.getTemEmprestimo()) { //Caso o usuário já tenha algum livro empretado
                 System.out.println(" - Usuário já possui emprestimo realizado. ");
             }
         } catch (Exception e) {
@@ -35,7 +35,7 @@ public class Emprestimos {
 
     public boolean registrarDevolucao(Livros livro, Clientes cliente) {
         try {
-            if(cliente.getEmprestimoCliente() && livro.get_num_exemp_disp() != livro.get_num_exemplares()){
+            if(cliente.getTemEmprestimo() && livro.get_num_exemp_disp() != livro.get_num_exemplares()){
                 //Verifica se o livro está emprestado
                 this.cliente.emprestimo_false();
                 this.livro.atualizarNumExemp(1);
@@ -47,7 +47,7 @@ public class Emprestimos {
 
             } else if (livro.get_num_exemp_disp() == livro.get_num_exemplares()){
                 System.out.println(" - Não há livros emprestados para devolução ");
-            } else if (!cliente.getEmprestimoCliente()) {
+            } else if (!cliente.getTemEmprestimo()) {
                 System.out.println(" - Usuário não possui empréstimos em seu nome. ");
             }
         } catch (Exception e) {
