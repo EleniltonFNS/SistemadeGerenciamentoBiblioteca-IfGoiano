@@ -219,13 +219,15 @@ public class AppMenu {
                     }
                     break;
 
-                case 5: //Lista de Livros
-                    System.out.println("LISTAGEM DE LIVROS DO SISTEMA");
+                case 6: //Lista de Livros
+                    System.out.println(" -=-=- LISTAGEM DE LIVROS CADASTRADO -=-=- ");
                     for (int i = 0; i < livro.length; i++) {
                         if (livro[i] != null) {
+                            System.out.println(" ---------------------------------- \n");
                             System.out.println(livro[i].toString());
                         }
                     }
+                    System.out.println(" ---------------------------------- \n");
                     break;
 
                 case 6: //Lista de Clientes
