@@ -36,6 +36,9 @@ public class Clientes {
         temEmprestimo = false;
         this.livroEmprestado = null;
     }
+    public int getIdLivro() {
+        return livroEmprestado.getId_livro();
+    }
     @Override
     public String toString (){
         if(!temEmprestimo) {

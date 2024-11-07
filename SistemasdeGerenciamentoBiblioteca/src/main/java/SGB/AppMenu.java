@@ -176,7 +176,6 @@ public class AppMenu {
                         } while (opcExcluir <= 3);
                     }
                     break;
-
                 case 4:
                     for (int i = 0; i < 10; i++) {
                         System.out.println();
@@ -215,19 +214,26 @@ public class AppMenu {
                             System.out.println(" - Data de Devolução (AAAA-MM-DD): ");
                             String dataDevolucao = scan.next();
 
-                            int livroIndex = -1, clienteIndex = -1; //Variáveis que serão usadas para registrar os arrays
+                            int livroIndex = -1, clienteIndex = -1, emprestimoIndex = 0; //Variáveis que serão usadas para registrar os arrays
 
-                            // Tenta encontrar o livro
+                            // Tenta encontrar o livro pelo Id
                             for(int arreioLivros = 0; arreioLivros < livro.length; arreioLivros++) {
                                 if(livro[arreioLivros].getId_livro() == livroId ) {
                                     livroIndex = arreioLivros;
                                     break;
                                 }
                             }
-                            // Tenta encontrar o cliente
+                            // Tenta encontrar o cliente pelo Id
                             for(int arreioCliente = 0; arreioCliente < cliente.length; arreioCliente++) {
                                 if(cliente[arreioCliente].getIdCliente() == clienteId ) {
                                     clienteIndex = arreioCliente;
+                                    break;
+                                }
+                            }
+
+                            for(int arreioEmprestimo = 0; arreioEmprestimo < emprestimo.length; arreioEmprestimo++) {
+                                if(emprestimo[emprestimoIndex] == null){
+                                    emprestimoIndex = arreioEmprestimo;
                                     break;
                                 }
                             }
@@ -243,7 +249,7 @@ public class AppMenu {
 
                                     try {
                                         if (empr.registrarEmprestimo(livro[livroIndex], cliente[clienteIndex], LocalDate.parse(dataDevolucao))) {
-                                            emprestimo[contadorEmp] = empr;
+                                            emprestimo[emprestimoIndex] = empr;
                                             contadorEmp++;
                                             System.out.println(" - Empréstimo registrado com sucesso. ");
                                         } else {
@@ -261,11 +267,9 @@ public class AppMenu {
                             } else {
                                 if(livroIndex == -1){
                                     System.out.println("\n - Nenhum cadastro de livro encontrado com esse ID. ");
-
                                 }
                                 if(clienteIndex == -1){
                                     System.out.println("\n - Nenhum cadastro de cliente encontrado com ess ID");
-
                                 }
                             }
                             System.out.println("\n - Deseja registrar um novo emprestimo (S)im ou (N)ão: ");
@@ -282,46 +286,83 @@ public class AppMenu {
                         System.out.println();
                     }
                     System.out.println("\n -=-=- DEVOLUÇÃO DE LIVROS -=-=- ");
-                    System.out.println("\n - Deseja registrar alguma devolução (S)im ou (N)ão: ");
-                    System.out.print(" -> ");
-                    char opcInicial = scan.next().charAt(0);
+                    if(contadorEmp > 0) {
+                        System.out.println("\n - Deseja registrar alguma devolução (S)im ou (N)ão: ");
+                        System.out.print(" -> ");
+                        char opcInicial = scan.next().charAt(0);
 
-                    while (opcInicial == 'S' || opcInicial == 's') {
-                        int clienteId = -1;
+                        while (opcInicial == 'S' || opcInicial == 's') {
+                            int clienteId = -1;
 
-                        while (true) {
-                            System.out.println(" - Id do Cliente: ");
-                            try {
-                                clienteId = scan.nextInt();
-                                break;
-                            } catch (Exception e) {
-                                System.out.println(" - Favor, insira um número válido para ID do Cliente.");
-                                scan.next();
-                            }
-
-                            int clienteIndex = -1, emprestimoIndex = -1;
-
-                            for(int arreioCliente = 0; arreioCliente < cliente.length; arreioCliente++) {
-                                if(cliente[arreioCliente].getIdCliente() == clienteId ) {
-                                    clienteIndex = arreioCliente;
+                            while (true) {
+                                System.out.println(" - Id do Cliente: ");
+                                try {
+                                    clienteId = scan.nextInt();
                                     break;
+                                } catch (Exception e) {
+                                    System.out.println(" - Favor, insira um número válido para ID do Cliente.");
+                                    scan.next();
                                 }
-                            }
 
-                            if (cliente[clienteIndex].getIdCliente() == clienteId) {
-                                System.out.println("\n" + cliente[clienteIndex]);
+                                int clienteIndex = -1, emprestimoIndex = -1;
 
-                                for(int arreioEmprestimo = 0; arreioEmprestimo < livro.length; arreioEmprestimo++) {
-                                    if(emprestimo[emprestimoIndex].getIdCliente() == cliente[clienteIndex].getIdCliente()) {}
-                                    emprestimoIndex = arreioEmprestimo;
+                                for (int arreioCliente = 0; arreioCliente < cliente.length; arreioCliente++) {
+                                    if (cliente[arreioCliente].getIdCliente() == clienteId) {
+                                        clienteIndex = arreioCliente;
+                                        break;
+                                    }
                                 }
-                            }
 
-                            System.out.println("\n - Deseja registrar uma nova devolução (S)im ou (N)ão: ");
-                            System.out.print(" -> ");
-                            opcInicial = scan.next().charAt(0);
-                            break;
+                                if (clienteIndex != -1 && cliente[clienteIndex].getTemEmprestimo()) {
+                                    System.out.println("\n" + cliente[clienteIndex]);
+
+                                    for (int arreioEmprestimo = 0; arreioEmprestimo < emprestimo.length; arreioEmprestimo++) {
+                                        if (emprestimo[emprestimoIndex].getIdCliente() == cliente[clienteIndex].getIdCliente()) {
+                                            emprestimoIndex = arreioEmprestimo;
+                                            break;
+                                        }
+                                    }
+
+                                    if (emprestimoIndex != -1) {
+                                        System.out.println("\n - Empréstimo encontrado:");
+                                        System.out.println(emprestimo[emprestimoIndex].getLivro());
+                                        System.out.println("\n ------------------------------------------------ \n");
+                                        System.out.println("\n - Deseja confirmar a devolução (S)im ou (N)ão: ");
+                                        char opcConfirmar = scan.next().charAt(0);
+
+                                        if (opcConfirmar == 'S' || opcConfirmar == 's') {
+                                            Emprestimos empr = emprestimo[emprestimoIndex];
+
+                                            try {
+                                                if (empr.registrarDevolucao(cliente[clienteIndex])) {
+                                                    emprestimo[emprestimoIndex] = null;
+                                                    contadorEmp--;
+                                                    System.out.println(" - Devolução registrada com sucesso. ");
+                                                } else {
+                                                    System.out.println(" - Falha ao registrar a devolução. ");
+                                                }
+                                            } catch (Exception e) {
+                                                System.out.println(" - Ocorreu um erro ao registrar a devolução.");
+                                            }
+
+                                        } else {
+                                            System.out.println("\n - Devolução cancelada. ");
+                                        }
+                                    } else {
+                                        System.out.println("\n - Não há empréstimos ativos para esse cliente.");
+                                    }
+                                } else {
+                                    System.out.println("\n - Nenhum cadastro de cliente encontrado com ess ID");
+                                }
+
+                                System.out.println("\n - Deseja registrar uma nova devolução (S)im ou (N)ão: ");
+                                System.out.print(" -> ");
+                                opcInicial = scan.next().charAt(0);
+                                break;
+                            }
                         }
+                    } else {
+                        System.out.println(" - Nenhum empréstimo realizado. ");
                     }
                     break;
 
