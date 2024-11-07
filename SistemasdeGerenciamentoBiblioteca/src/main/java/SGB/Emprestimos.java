@@ -25,7 +25,7 @@ public class Emprestimos {
             } else if (livro.get_num_exemp_disp() == 0) {//Caso o livro esteja emprestado a alguém
                 System.out.println(" - Nenhum livro disponível para empréstimo. ");
             } else if (cliente.getTemEmprestimo()) { //Caso o usuário já tenha algum livro empretado
-                System.out.println(" - Usuário já possui emprestimo realizado. ");
+                System.out.println(" - Usuário já possui emprestimo ativo. ");
             }
         } catch (Exception e) {
             System.out.println(" - Ocorreu um erro ao registrar emprestimo. ");
@@ -46,10 +46,10 @@ public class Emprestimos {
                 return true; //confirma que a devolução foi efetivada
 
             } else if (!cliente.getTemEmprestimo()) {
-                System.out.println(" - Usuário não possui empréstimos em seu nome. ");
+                System.out.println(" - Usuário não possui empréstimo ativo. ");
             }
         } catch (Exception e) {
-            System.out.println(" - Ocorreu um erro ao registrar emprestimo. ");
+            System.out.println(" - Ocorreu um erro ao registrar a devolução. ");
         }
         return false;
     }
