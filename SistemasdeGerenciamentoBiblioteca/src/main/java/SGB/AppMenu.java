@@ -176,7 +176,7 @@ public class AppMenu {
                         } while (opcExcluir <= 3);
                     }
                     break;
-                case 4:
+                case 4: //Empréstimo de livros
                     for (int i = 0; i < 10; i++) {
                         System.out.println();
                     }
@@ -188,9 +188,11 @@ public class AppMenu {
 
                         while (opcInicial == 'S' || opcInicial == 's') {
                             int clienteId = -1, livroId = -1;
+                             int livroIndex = -1, clienteIndex = -1, emprestimoIndex = -1; //Variáveis que serão usadas para registrar os arrays
+                            
+                            System.out.println(" - Id do Cliente: ");
 
                             while (true) {
-                                System.out.println(" - Id do Cliente: ");
                                 try {
                                     clienteId = scan.nextInt();
                                     break;
@@ -199,9 +201,9 @@ public class AppMenu {
                                     scan.next();
                                 }
                             }
+                            System.out.println(" - Id do Livro: ");
 
                             while (true) {
-                                System.out.println(" - Id do Livro: ");
                                 try {
                                     livroId = scan.nextInt();
                                     break;
@@ -213,8 +215,6 @@ public class AppMenu {
 
                             System.out.println(" - Data de Devolução (AAAA-MM-DD): ");
                             String dataDevolucao = scan.next();
-
-                            int livroIndex = -1, clienteIndex = -1, emprestimoIndex = 0; //Variáveis que serão usadas para registrar os arrays
 
                             // Tenta encontrar o livro pelo Id
                             for(int arreioLivros = 0; arreioLivros < livro.length; arreioLivros++) {
@@ -239,8 +239,9 @@ public class AppMenu {
                             }
 
                             if(livroIndex != -1 && clienteIndex != -1) { // Verificam se foram encontrados
-                                System.out.println("\n" + livro[livroIndex]);
-                                System.out.println("\n" + cliente[clienteIndex]);
+                                System.out.println("\n " + livro[livroIndex]);
+                                System.out.println("\n " + cliente[clienteIndex]);
+                                System.out.println("\n ---------------------------------------------------- \n");
                                 System.out.println("\n - Deseja confirmar o emprestimo (S)im ou (N)ão: ");
                                 char opcConfirmar = scan.next().charAt(0);
 
@@ -277,7 +278,7 @@ public class AppMenu {
                             opcInicial = scan.next().charAt(0);
                         }
                     } else {
-                        System.out.println(" - Limite de emprestimos atingido. ");
+                        System.out.println(" - Limite de empréstimos atingido. ");
                     }
                     break;
 
@@ -292,10 +293,12 @@ public class AppMenu {
                         char opcInicial = scan.next().charAt(0);
 
                         while (opcInicial == 'S' || opcInicial == 's') {
+
+                            System.out.println(" - Id do Cliente: ");
                             int clienteId = -1;
+                            int clienteIndex = -1, emprestimoIndex = -1;
 
                             while (true) {
-                                System.out.println(" - Id do Cliente: ");
                                 try {
                                     clienteId = scan.nextInt();
                                     break;
@@ -303,63 +306,60 @@ public class AppMenu {
                                     System.out.println(" - Favor, insira um número válido para ID do Cliente.");
                                     scan.next();
                                 }
+                            }
 
-                                int clienteIndex = -1, emprestimoIndex = -1;
+                            for (int arreioCliente = 0; arreioCliente < cliente.length; arreioCliente++) {
+                                if (cliente[arreioCliente] != null && cliente[arreioCliente].getIdCliente() == clienteId) {
+                                    clienteIndex = arreioCliente;
+                                    break;
+                                }
+                            }
 
-                                for (int arreioCliente = 0; arreioCliente < cliente.length; arreioCliente++) {
-                                    if (cliente[arreioCliente].getIdCliente() == clienteId) {
-                                        clienteIndex = arreioCliente;
+                            if (clienteIndex != -1 && cliente[clienteIndex].getTemEmprestimo()) {
+                                System.out.println("\n " + cliente[clienteIndex]);
+
+                                for (int arreioEmprestimo = 0; arreioEmprestimo < emprestimo.length; arreioEmprestimo++) {
+                                    if (emprestimo[arreioEmprestimo] != null && emprestimo[arreioEmprestimo].getIdCliente() == cliente[clienteIndex].getIdCliente()) {
+                                        emprestimoIndex = arreioEmprestimo;
                                         break;
                                     }
                                 }
 
-                                if (clienteIndex != -1 && cliente[clienteIndex].getTemEmprestimo()) {
-                                    System.out.println("\n" + cliente[clienteIndex]);
+                                if (emprestimoIndex != -1) {
+                                    System.out.println("\n - Empréstimo encontrado:");
+                                    System.out.println(emprestimo[emprestimoIndex].getLivro());
+                                    System.out.println("\n ------------------------------------------------ \n");
+                                    System.out.println("\n - Deseja confirmar a devolução (S)im ou (N)ão: ");
+                                    char opcConfirmar = scan.next().charAt(0);
 
-                                    for (int arreioEmprestimo = 0; arreioEmprestimo < emprestimo.length; arreioEmprestimo++) {
-                                        if (emprestimo[emprestimoIndex].getIdCliente() == cliente[clienteIndex].getIdCliente()) {
-                                            emprestimoIndex = arreioEmprestimo;
-                                            break;
-                                        }
-                                    }
+                                    if (opcConfirmar == 'S' || opcConfirmar == 's') {
+                                        Emprestimos empr = emprestimo[emprestimoIndex];
 
-                                    if (emprestimoIndex != -1) {
-                                        System.out.println("\n - Empréstimo encontrado:");
-                                        System.out.println(emprestimo[emprestimoIndex].getLivro());
-                                        System.out.println("\n ------------------------------------------------ \n");
-                                        System.out.println("\n - Deseja confirmar a devolução (S)im ou (N)ão: ");
-                                        char opcConfirmar = scan.next().charAt(0);
-
-                                        if (opcConfirmar == 'S' || opcConfirmar == 's') {
-                                            Emprestimos empr = emprestimo[emprestimoIndex];
-
-                                            try {
-                                                if (empr.registrarDevolucao(cliente[clienteIndex])) {
-                                                    emprestimo[emprestimoIndex] = null;
-                                                    contadorEmp--;
-                                                    System.out.println(" - Devolução registrada com sucesso. ");
-                                                } else {
-                                                    System.out.println(" - Falha ao registrar a devolução. ");
-                                                }
-                                            } catch (Exception e) {
-                                                System.out.println(" - Ocorreu um erro ao registrar a devolução.");
+                                        try {
+                                            if (empr.registrarDevolucao(cliente[clienteIndex])) {
+                                                emprestimo[emprestimoIndex] = null;
+                                                contadorEmp--;
+                                                System.out.println(" - Devolução registrada com sucesso. ");
+                                            } else {
+                                                System.out.println(" - Falha ao registrar a devolução. ");
                                             }
-
-                                        } else {
-                                            System.out.println("\n - Devolução cancelada. ");
+                                        } catch (Exception e) {
+                                            System.out.println(" - Ocorreu um erro ao registrar a devolução.");
                                         }
+
                                     } else {
-                                        System.out.println("\n - Não há empréstimos ativos para esse cliente.");
+                                        System.out.println("\n - Devolução cancelada. ");
                                     }
                                 } else {
-                                    System.out.println("\n - Nenhum cadastro de cliente encontrado com ess ID");
+                                    System.out.println("\n - Não há empréstimos ativos para esse cliente.");
                                 }
-
-                                System.out.println("\n - Deseja registrar uma nova devolução (S)im ou (N)ão: ");
-                                System.out.print(" -> ");
-                                opcInicial = scan.next().charAt(0);
-                                break;
+                            } else {
+                                System.out.println("\n - Nenhum cadastro de cliente encontrado com ess ID");
                             }
+
+                            System.out.println("\n - Deseja registrar uma nova devolução (S)im ou (N)ão: ");
+                            System.out.print(" -> ");
+                            opcInicial = scan.next().charAt(0);
                         }
                     } else {
                         System.out.println(" - Nenhum empréstimo realizado. ");
