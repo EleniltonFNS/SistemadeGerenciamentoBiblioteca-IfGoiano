@@ -211,7 +211,7 @@ public class AppMenu {
                                         // Formata o CPF
                                         cpf = cpf.substring(0,3) + "." + cpf.substring(3,6) + "." + cpf.substring(6,9) + "-" + cpf.substring(9);
 
-                                    } while (cpf.isEmpty()) // Repete para garantir a validação do CPF
+                                    } while (cpf.isEmpty()); // Repete para garantir a validação do CPF
 
                                     String telefone;
                                     do{
