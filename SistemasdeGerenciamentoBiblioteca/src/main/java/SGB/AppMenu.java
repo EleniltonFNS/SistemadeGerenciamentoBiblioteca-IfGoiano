@@ -6,19 +6,22 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+// Classe principal do sistema de gerenciamento de biblioteca.
+
 public class AppMenu {
     public static void main(String[] args) {
         
-        Scanner scan = new Scanner(System.in);
-        int opcMenu;
+        Scanner scan = new Scanner(System.in); // Objeto Scanner para leituras das entradas
+        int opcMenu;  // Opção selecionada do menu principal
 
+        // Arrays para armazenar dados do livros, clientes e empréstimos
         Livros[] livro = new Livros[5];
         Clientes[] cliente = new Clientes[5];
         Emprestimos[] emprestimo = new Emprestimos[10];
 
-        int contadorEmp = 0, contadorLivro = 0, contadorCliente = 0;
+        int contadorEmp = 0, contadorLivro = 0, contadorCliente = 0; // Contadores para ajudar a limitar a quantidade de cadastro
         
-        do {
+        do { // Exibição do menu principal e opções disponíveis
             System.out.println("\n ||||||||||Sistema de Gerenciamento de Biblioteca|||||||||| ");
             System.out.println("\n - Opções disponíveis: ");
             System.out.println(" |  1 - Cadastro");
@@ -29,7 +32,7 @@ public class AppMenu {
             System.out.println(" |  6 - Sair");
 
             System.out.print(" -> ");
-            while (!scan.hasNextInt()) {
+            while (!scan.hasNextInt()) { // Tratamento e validação da entrada do menu principal
                 System.out.println(" - Digite um número válido. ");
                 System.out.print(" -> ");
                 scan.next();
@@ -42,14 +45,14 @@ public class AppMenu {
                 case 1: //Cadastro em geral
                     System.out.println("\n -=-=- Adicionar cadastros -=-=- ");
                     int opcCadastro;
-                    do{
+                    do{ // Menu do cadastro
                         System.out.println("\n - Opções disponíveis: ");
                         System.out.println(" | 1 - Cadastrar Livro");
                         System.out.println(" | 2 - Cadastrar Usuário");
                         System.out.println(" | 3 - Voltar ao Menu Principal");
 
                         System.out.print(" -> ");
-                        while (!scan.hasNextInt()) {
+                        while (!scan.hasNextInt()) { // Tratamento e validação da entrada do menu de cadastro
                             System.out.println(" - Digite um número válido. ");
                             System.out.print(" -> ");
                             scan.next();
@@ -61,6 +64,8 @@ public class AppMenu {
                             case 1: //Cadastro de Livros
                                 System.out.println("\n -=-=- CADASTRO DE LIVROS -=-=- ");
                                 if (contadorLivro < livro.length) { // Verifica se tem espaço para cadastrar um novo Livro
+
+                                // Solicita e valida os dados do livro a ser cadastrado
                                     String titulo;
                                     do{
                                         System.out.print("Título: ");
@@ -68,14 +73,14 @@ public class AppMenu {
                                         if (titulo.isEmpty()) {
                                             System.out.println(" - O título do livro não poed estar vazio.");
                                         }
-                                    } while (titulo.isEmpty());
+                                    } while (titulo.isEmpty()); // Repete para garantir a validação do titulo
                                     
                                     int idLivro = -1;
-                                    boolean idLivroUsado; //Verifica se o Id já não está sendo usado
+                                    boolean idLivroUsado; // Variável para verifica se o Id já não está sendo usado
 
                                     do {
                                         System.out.print("Id do livro: ");
-                                        while (!scan.hasNextInt()) {
+                                        while (!scan.hasNextInt()) { // Repete para garantir a validação do titulo
                                             System.out.println(" - Insira um número válido para o ID do livro.");
                                             scan.next();
                                         }
@@ -83,9 +88,9 @@ public class AppMenu {
                                         scan.nextLine();
 
                                         idLivroUsado = false;
-                                        for (int i = 0; i < livro.length; i++) {
+                                        for (int i = 0; i < livro.length; i++) { // Verifica se o Id está disponível
                                             if (livro[i] != null && livro[i].getId_livro() == idLivro) {
-                                                idLivroUsado = true;
+                                                idLivroUsado = true; // Confirma que o ID já está em uso
                                                 break;
                                             }
                                         }
@@ -115,7 +120,7 @@ public class AppMenu {
                                     } while (ano_publi > LocalDate.now().getYear());
 
                                     int num_exemplares;
-                                    do {
+                                    do { // Verifica se o número não é < ou = a 0
                                         System.out.print("Número de exemplares: ");
                                         while (!scan.hasNextInt()) {
                                             System.out.println(" - Digite um número válido. ");
@@ -129,13 +134,14 @@ public class AppMenu {
                                         }
                                     } while (num_exemplares <= 0);
 
+                                    // Confirmação do cadastro?
                                     System.out.println("\n - Deseja confirmar o cadastro do livro (S)im ou (N)ão: ");
                                     System.out.print(" -> ");
                                     char opcConfirmar = scan.next().charAt(0);
 
                                     if (opcConfirmar == 'S' || opcConfirmar == 's') {
                                         for(int arreioLivro = 0; arreioLivro < livro.length; arreioLivro++) {
-                                            if (livro[arreioLivro] == null) {
+                                            if (livro[arreioLivro] == null) { // Realiza o cadastro na variável do arreio que estiver vazio
                                                 livro[arreioLivro] = new Livros(idLivro, titulo, autor, editora, ano_publi, num_exemplares);
                                                 contadorLivro++;
                                                 System.out.println(" - Livro cadastrado com sucesso. ");
@@ -145,14 +151,17 @@ public class AppMenu {
                                     } else { // Cancela o cadastro do Livro
                                     System.out.println("\n - Cadastro do livro cancelado. ");
                                 }
-                                } else {
+                                } else { // Caso não tenha mais variáveis vazias, então não cabe um novo cadastro
                                     System.out.println(" - Limite de cadastros de livros atingido. ");
                                 }
                                 break;
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
                             case 2: //Cadastro de Usuários
                                 System.out.println("\n -=-=- CADASTRO DE USUÁRIOS -=-=- \n");
-                                if (contadorCliente < cliente.length) {
+                                // Lógica de cadastro de usuários
+                                if (contadorCliente < cliente.length) { // Verifica se tem espaço para cadastrar um novo Livro
+                                    
+                                    // Solicita e valida os dados do cliente a ser cadastrado
                                     String nome;
                                     do{
                                         System.out.print("Nome: ");
@@ -160,27 +169,29 @@ public class AppMenu {
                                         if (nome.isEmpty()) {
                                             System.out.println(" - O nome do cliente não pode estar vazio.");
                                         }
-                                    } while (nome.isEmpty());
+                                    } while (nome.isEmpty());  // Repete para garantir a validação do nome
 
                                     int idCliente = -1;
-                                    boolean idClienteUsado; // Verifica se o id já não está sendo usado
+                                    boolean idClienteUsado; // Variável para verifica se o Id já não está sendo usado
 
                                     do{
                                         System.out.print("Id do cliente: ");
                                         while (!scan.hasNextInt()) {
-                                            System.out.println(" - ID já está em uso. Favor inserir outro ID. ");
+                                            System.out.println(" - Insira um número válido para o ID do cliente. ");
                                             scan.next();
                                         }
                                         idCliente = scan.nextInt();
                                         scan.nextLine();
 
                                         idClienteUsado = false;
-                                        for (int i = 0; i < cliente.length; i++) {
-                                            idClienteUsado = true;
-                                            break;
+                                        for (int i = 0; i < cliente.length; i++) { // Verifica se o Id está disponível
+                                            if (cliente[i] != null && cliente[i].getIdCliente() == idCliente){
+                                                idClienteUsado = true; // Confirma que o ID já está em uso
+                                                break;
+                                            }
                                         }
                                         if (idClienteUsado) {
-                                            System.out.println(" - ID ");
+                                            System.out.println(" - ID já está em uso. Favor inserir outro ID.  ");
                                         }
                                     } while (idClienteUsado);
 
@@ -197,10 +208,10 @@ public class AppMenu {
                                             System.out.println(" - CPF deve conter 11 dígitos. ");
                                             continue;
                                         }
-
+                                        // Formata o CPF
                                         cpf = cpf.substring(0,3) + "." + cpf.substring(3,6) + "." + cpf.substring(6,9) + "-" + cpf.substring(9);
 
-                                    } while (cpf.isEmpty());
+                                    } while (cpf.isEmpty()) // Repete para garantir a validação do CPF
 
                                     String telefone;
                                     do{
@@ -211,12 +222,13 @@ public class AppMenu {
                                             System.out.println(" - Número de telefone deve conter 11 dígitos. ");
                                             continue;
                                         }
-
+                                        // Formata o número de telefone
                                         telefone = "(" + telefone.substring(0,2) + ")" + telefone.substring(2,7) + "-"
                                                 + telefone.substring(7);
 
-                                    } while (telefone.isEmpty());
+                                    } while (telefone.isEmpty()); // Repete para garantir a validação do número de telefone
 
+                                    // Confirmação do cadastro?
                                     System.out.println("\n - Deseja confirmar o cadastro do cliente (S)im ou (N)ão: ");
                                     System.out.print(" -> ");
                                     char opcConfirmar = scan.next().charAt(0);
@@ -224,7 +236,7 @@ public class AppMenu {
 
                                     if (opcConfirmar == 'S' || opcConfirmar == 's') {
                                         for(int i = 0; i < cliente.length; i++) {
-                                            if (cliente[i] == null) {
+                                            if (cliente[i] == null) { // Realiza o cadastro na variável do arreio que estiver vazio
                                                 cliente[i] = new Clientes(idCliente, nome, email, cpf, telefone);
                                                 contadorCliente++;
                                                 System.out.println(" - Cliente cadastrado com sucesso. ");
@@ -235,16 +247,16 @@ public class AppMenu {
                                     } else { // Cancela o cadastro do Livro
                                         System.out.println("\n - Cadastro do cliente cancelado. ");
                                     }
-                                } else {
+                                } else { // Caso não tenha mais variáveis vazias, então não cabe um novo cadastro
                                     System.out.println(" - Limite de cadastros de clientes atingido. ");
                                 }
                                 break;
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-                            case 3:
-                                System.out.println(" - Voltando para o menu Principal. ");
+                            case 3: // Sair do menu principal
+                                System.out.println(" - Voltando para o menu principal. ");
                                 break;
 
-                            default:
+                            default: // Caso seja informado algum número além dos informados no menu
                                 System.out.println(" - Opção inválida. ");
                         }
                     } while (opcCadastro != 3);
@@ -255,14 +267,14 @@ public class AppMenu {
                 case 2: //Exclusão de cadastro
                     System.out.println("\n -=-=- Exclusão de cadastros -=-=- ");
                     int opcExcluir;
-                    do{
+                    do{ // Menu do cadastro
                         System.out.println("\n - Opções disponíveis: ");
                         System.out.println(" | 1 - Excluir Cadastro de Livro");
                         System.out.println(" | 2 - Excluir Cadastro de Usuário");
                         System.out.println(" | 3 - Voltar ao Menu Principal");
 
                         System.out.print(" -> ");
-                        while (!scan.hasNextInt()) {
+                        while (!scan.hasNextInt()) { // Tratamento e validação da entrada do menu de exclusão
                             System.out.println(" - Digite um número válido. ");
                             System.out.print(" -> ");
                             scan.next();
@@ -382,11 +394,11 @@ public class AppMenu {
                                 }
                                 break;
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-                            case 3:
-                                System.out.println(" - Voltando para o menu Principal.");
+                            case 3: // Sair do menu exclusão
+                                System.out.println(" - Voltando para o menu principal.");
                                 break;
 
-                            default:
+                            default: // Caso seja informado algum número além dos informados no menu
                                 System.out.println(" - Opção inválida.");
                         }
 
@@ -397,14 +409,14 @@ public class AppMenu {
                 case 3: // Registro de empréstimo e devolução
                     System.out.println("\n -=-=- Registro de Empréstimo e Devolução -=-=- ");
                     int opcEmp = 0;
-                    do{
+                    do{ // Menu do cadastro
                         System.out.println("\n - Opções disponíveis: ");
                         System.out.println(" | 1 - Registrar Empréstimo");
                         System.out.println(" | 2 - Registrar Devolução");
                         System.out.println(" | 3 - Voltar ao Menu Principal");
 
                         System.out.print(" -> ");
-                        while (!scan.hasNextInt()) {
+                        while (!scan.hasNextInt()) { // Tratamento e validação da entrada do menu de empréstimo
                             System.out.println(" - Digite um número válido. ");
                             System.out.print(" -> ");
                             scan.next();
@@ -592,11 +604,11 @@ public class AppMenu {
                                 }
                                 break;
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-                            case 3:
-                                System.out.println(" - Voltando para o menu Principal.");
+                            case 3:  // Sair do menu emprestimo
+                                System.out.println(" - Voltando para o menu principal.");
                                 break;
 
-                            default:
+                            default: // Caso seja informado algum número além dos informados no menu
                                 System.out.println(" - Opção inválida.");
                         }
 
@@ -607,7 +619,7 @@ public class AppMenu {
                 case 4: // Listagem dos cadastros
                     System.out.println("\n -=-=- Listagem de Cadastros e Empréstimos -=-=- ");
                     int opcLista = 0;
-                    do{
+                    do{ // Menu do cadastro
                         System.out.println("\n - Opções disponíveis: ");
                         System.out.println(" | 1 - Lista de Livros Cadastrados");
                         System.out.println(" | 2 - Lista de Clientes Cadastrados");
@@ -615,7 +627,7 @@ public class AppMenu {
                         System.out.println(" | 4 - Voltar ao Menu Principal");
 
                         System.out.print(" -> ");
-                        while (!scan.hasNextInt()) {
+                        while (!scan.hasNextInt()) { // Tratamento e validação da entrada do menu de listagem
                             System.out.println(" - Digite um número válido. ");
                             System.out.print(" -> ");
                             scan.next();
@@ -628,8 +640,8 @@ public class AppMenu {
 
                                 System.out.println("\n -=-=- Listagem de Livros Cadsatrados -=-=- ");
                                 
-                                int contLivros = 0;
-                                for (Livros l : livro) if (l != null) contLivros++;
+                                int contLivros = 0; // Variável contadora
+                                for (Livros l : livro) if (l != null) contLivros++; // Verifica se tem cadastros
                                 if(contLivros > 0) {
                                     for (int i = 0; i < livro.length; i++) {
                                         if (livro[i] != null) {
@@ -647,8 +659,8 @@ public class AppMenu {
                                 
                                 System.out.println("\n -=-=- Listagem de Clietes Cadastrados -=-=- ");
                                 
-                                int contClientes = 0;
-                                for (Clientes c : cliente) if (c != null) contClientes++;
+                                int contClientes = 0; // Variável contadora
+                                for (Clientes c : cliente) if (c != null) contClientes++; // Verifica se tem cadastros
                                 if(contClientes > 0) {
                                     for (int i = 0; i < cliente.length; i++) {
                                         if (cliente[i] != null) {
@@ -666,8 +678,8 @@ public class AppMenu {
 
                                 System.out.println("\n -=-=- Empréstimos Ativos -=-=- ");
                                 
-                                int contEmprestimos = 0;
-                                for (Emprestimos e : emprestimo) if (e != null) contEmprestimos++;
+                                int contEmprestimos = 0; // Variável contadora
+                                for (Emprestimos e : emprestimo) if (e != null) contEmprestimos++; // Verifica se tem empréstimo
                                 if(contEmprestimos > 0) {
                                     for (int i = 0; i < cliente.length; i++) {
                                         if (cliente[i].getTemEmprestimo() == true) {
@@ -681,11 +693,11 @@ public class AppMenu {
                                 }
                                 break;
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-                            case 4:
-                                System.out.println(" - Voltando para o menu Principal.");
+                            case 4:  // Sair do menu de listagem
+                                System.out.println(" - Voltando para o menu principal.");
                                 break;
 
-                            default:
+                            default: // Caso seja informado algum número além dos informados no menu
                                 System.out.println(" - Opção inválida.");
                         }
 
@@ -695,10 +707,12 @@ public class AppMenu {
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
                 case 5: //Salvar cadastros em arquivos de textos
 
-                    int contLivros = 0, contClientes = 0, contEmprestimos = 0;
+                    int contLivros = 0, contClientes = 0, contEmprestimos = 0; // Variáveis contadoras
+                    // Verifica se tem cadastros
                     for (Livros l : livro) if (l != null) contLivros++;
                     for (Clientes c : cliente) if (c != null) contClientes++;
                     for (Emprestimos e : emprestimo) if (e != null) contEmprestimos++;
+                    
                     System.out.println("\n -=-=- Salvando Cadastros e Empréstimos em Arquivos -=-=- ");
 
                     try{
@@ -706,7 +720,7 @@ public class AppMenu {
                         PrintWriter gravarArquivo = new PrintWriter(arquivo);
 
                         if(contLivros > 0) {
-                            // Grava os lirvos
+                            // Grava os lirvos cadastrados
                             gravarArquivo.println(" -=-=-=- Livros Cadastrados -=-=-=- ");
                             for (int i = 0; i < livro.length; i++) {
                                 if (livro[i] != null) {
@@ -719,7 +733,7 @@ public class AppMenu {
                         }
 
                         if(contClientes > 0) {
-                            // Grava os clientes
+                            // Grava os clientes cadastrados
                             gravarArquivo.println(" -=-=-=- Clientes Cadastrados -=-=-=- ");
                             for (int i = 0; i < cliente.length; i++) {
                                 if (cliente[i] != null) {
@@ -745,7 +759,7 @@ public class AppMenu {
                         }
 
                         gravarArquivo.close();
-                        arquivo.close();
+                        arquivo.close(); // Fecha o arquivo
                         System.out.println("\n - Dados salvos com sucesso em \"dadosBiblioteca.txt\". ");
                     } catch (IOException e) {
                         System.out.println("\n - Erro ao salvar dados no arquivo. ");
@@ -753,11 +767,11 @@ public class AppMenu {
                     break;
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-                case 6: //Sair
+                case 6: // Sair do menu principal
                     System.out.println("Saindo do sistema. Obrigado por utilizar o Sistema de Gerenciamento de Biblioteca!");
                     break;
 
-                default:
+                default: // Caso seja informado algum número além dos informados no menu
                     System.out.println("Opção inválida. Tente novamente.");
             }
         } while (opcMenu != 6);
