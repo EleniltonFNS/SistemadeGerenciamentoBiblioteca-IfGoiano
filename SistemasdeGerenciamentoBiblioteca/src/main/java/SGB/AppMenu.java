@@ -1,5 +1,8 @@
 package SGB;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -28,6 +31,7 @@ public class AppMenu {
             System.out.print(" -> ");
             while (!scan.hasNextInt()) {
                 System.out.println(" - Digite um número válido. ");
+                System.out.print(" -> ");
                 scan.next();
             }
             opcMenu = scan.nextInt();
@@ -36,9 +40,6 @@ public class AppMenu {
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
             switch (opcMenu) {
                 case 1: //Cadastro em geral
-                    System.out.print("\033[H\033[2J");
-                    System.out.flush();
-
                     System.out.println("\n -=-=- Adicionar cadastros -=-=- ");
                     int opcCadastro;
                     do{
@@ -50,6 +51,7 @@ public class AppMenu {
                         System.out.print(" -> ");
                         while (!scan.hasNextInt()) {
                             System.out.println(" - Digite um número válido. ");
+                            System.out.print(" -> ");
                             scan.next();
                         }
                         opcCadastro = scan.nextInt();
@@ -128,6 +130,7 @@ public class AppMenu {
                                     } while (num_exemplares <= 0);
 
                                     System.out.println("\n - Deseja confirmar o cadastro do livro (S)im ou (N)ão: ");
+                                    System.out.print(" -> ");
                                     char opcConfirmar = scan.next().charAt(0);
 
                                     if (opcConfirmar == 'S' || opcConfirmar == 's') {
@@ -215,6 +218,7 @@ public class AppMenu {
                                     } while (telefone.isEmpty());
 
                                     System.out.println("\n - Deseja confirmar o cadastro do cliente (S)im ou (N)ão: ");
+                                    System.out.print(" -> ");
                                     char opcConfirmar = scan.next().charAt(0);
                                     scan.nextLine();
 
@@ -237,7 +241,7 @@ public class AppMenu {
                                 break;
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
                             case 3:
-                                System.out.println(" - Voltando para o menu principal. ");
+                                System.out.println(" - Voltando para o menu Principal. ");
                                 break;
 
                             default:
@@ -249,20 +253,18 @@ public class AppMenu {
                     
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
                 case 2: //Exclusão de cadastro
-                    System.out.print("\033[H\033[2J");
-                    System.out.flush();
-
                     System.out.println("\n -=-=- Exclusão de cadastros -=-=- ");
                     int opcExcluir;
                     do{
                         System.out.println("\n - Opções disponíveis: ");
                         System.out.println(" | 1 - Excluir Cadastro de Livro");
                         System.out.println(" | 2 - Excluir Cadastro de Usuário");
-                        System.out.println(" | 3 - Voltar ao Menu Principa");
+                        System.out.println(" | 3 - Voltar ao Menu Principal");
 
                         System.out.print(" -> ");
                         while (!scan.hasNextInt()) {
                             System.out.println(" - Digite um número válido. ");
+                            System.out.print(" -> ");
                             scan.next();
                         }
                         opcExcluir = scan.nextInt();
@@ -272,96 +274,116 @@ public class AppMenu {
                             case 1: // Excluir livro
                                 System.out.println("\n -=-=- Excluir Cadastro de Livro -=-=- ");
 
-                                System.out.println(" - Id do Livro: ");
-                                int livroId;
-                                while (!scan.hasNextInt()) {
-                                    System.out.println(" - Digite um número válido. ");
-                                    scan.next();
-                                }
-                                livroId = scan.nextInt();
-                                scan.nextLine();
+                                int contLivros = 0;
+                                for (Livros l : livro) if (l != null) contLivros++;
 
-                                int livroIndex = -1;
-                                boolean livroExiste = false;
-                                for (int i = 0; i < livro.length; i++) {
-                                    if (livro[i] != null && livro[i].getId_livro() == livroId) {
-                                        livroIndex = i;
-                                        livroExiste = true;
-                                        break;
+                                if (contLivros <= 0) {
+                                    System.out.println("\n - Nenhum livro cadastrado. ");
+                                    break;
+                                } else {
+                                    System.out.println(" - Id do Livro: ");
+                                    int livroId;
+                                    while (!scan.hasNextInt()) {
+                                        System.out.println(" - Digite um número válido. ");
+                                        scan.next();
                                     }
-                                }
+                                    livroId = scan.nextInt();
+                                    scan.nextLine();
 
-                                if (livroExiste) {
-                                    System.out.println("\n - Dados do Livro: ");
-                                    System.out.println(livro[livroIndex]);
-                                    if (livro[livroIndex].get_num_exemp_disp() < livro[livroIndex].get_num_exemplares()) {
-                                        System.out.println(" - O livro não pode ser excluído pois há exemplares emprestado.");
-                                    } else {
-                                        System.out.println("\n - Deseja confirmar a exclusão (S)im ou (N)ão: ");
-                                        char opcConfirmar = scan.next().charAt(0);
-
-                                        if (opcConfirmar == 'S' || opcConfirmar == 's') {
-                                            livro[livroIndex] = null; // Exclui o livro do sistema
-                                            System.out.println(" - Livro excluído com sucesso.");
-
-                                        } else {
-                                            System.out.println(" - Exclusão cancelada. ");
-
+                                    int livroIndex = -1;
+                                    boolean livroExiste = false;
+                                    for (int i = 0; i < livro.length; i++) {
+                                        if (livro[i] != null && livro[i].getId_livro() == livroId) {
+                                            livroIndex = i;
+                                            livroExiste = true;
+                                            break;
                                         }
                                     }
-                                } else {
-                                    System.out.println(" - Livro não encontrado.");
+
+                                    if (livroExiste) {
+                                        System.out.println("\n - Dados do Livro: ");
+                                        System.out.println(livro[livroIndex]);
+                                        if (livro[livroIndex].get_num_exemp_disp() < livro[livroIndex].get_num_exemplares()) {
+                                            System.out.println(" - O livro não pode ser excluído pois há exemplares emprestado.");
+                                        } else {
+                                            System.out.println("\n - Deseja confirmar a exclusão (S)im ou (N)ão: ");
+                                            System.out.print(" -> ");
+                                            char opcConfirmar = scan.next().charAt(0);
+
+                                            if (opcConfirmar == 'S' || opcConfirmar == 's') {
+                                                livro[livroIndex] = null; // Exclui o livro do sistema
+                                                System.out.println(" - Livro excluído com sucesso.");
+
+                                            } else {
+                                                System.out.println(" - Exclusão cancelada. ");
+
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println(" - Livro não encontrado.");
+                                    }
                                 }
                                 break;
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
                             case 2: // Excluir cliente
                                 System.out.println("\n -=-=- Excluir Cadastro de Livro -=-=- \n");
 
-                                System.out.println(" - Id do Cliente: ");
-                                int clienteId;
-                                while (!scan.hasNextInt()) {
-                                    System.out.println(" - Digite um número válido. ");
-                                    scan.next();
-                                }
-                                clienteId = scan.nextInt();
-                                scan.nextLine();
+                                int contClientes = 0;
+                                for (Clientes c : cliente) if (c != null) contClientes++;
 
-                                int clienteIndex = -1;
-                                boolean clienteExiste = false;
+                                if (contClientes <= 0) {
+                                    System.out.println("\n - Nenhum cliente cadastrado. ");
+                                    break;
 
-                                for (int i = 0; i < cliente.length; i++) {
-                                    if (cliente[i].getIdCliente() == clienteId) {
-                                        clienteIndex = i;
-                                        clienteExiste = true;
-                                        break;
+                                } else {
+                                    System.out.println(" - Id do Cliente: ");
+                                    int clienteId;
+                                    while (!scan.hasNextInt()) {
+                                        System.out.println(" - Digite um número válido. ");
+                                        System.out.print(" -> ");
+                                        scan.next();
                                     }
-                                }
+                                    clienteId = scan.nextInt();
+                                    scan.nextLine();
 
-                                if (clienteExiste) {
-                                    System.out.println("\n - Dados do Cliente: ");
-                                    System.out.println(cliente[clienteIndex]);
-                                    if (cliente[clienteIndex].getTemEmprestimo()) {
-                                        System.out.println(" - O cliente não pode ser excluído pois possui empréstimo ativo.");
+                                    int clienteIndex = -1;
+                                    boolean clienteExiste = false;
 
-                                    } else {
-                                        System.out.println("\n - Deseja confirmar a exclusão (S)im ou (N)ão: ");
-                                        char opcConfirmar = scan.next().charAt(0);
-
-                                        if (opcConfirmar == 'S' || opcConfirmar == 's') {
-                                            cliente[clienteIndex] = null;
-                                            System.out.println(" - Cliente excluído com sucesso.");
-
-                                        }else {
-                                            System.out.println(" - Exclusão Cancelada. ");
+                                    for (int i = 0; i < cliente.length; i++) {
+                                        if (cliente[i].getIdCliente() == clienteId) {
+                                            clienteIndex = i;
+                                            clienteExiste = true;
+                                            break;
                                         }
                                     }
-                                } else {
-                                    System.out.println(" - Cliente não encontrado.");
+
+                                    if (clienteExiste) {
+                                        System.out.println("\n - Dados do Cliente: ");
+                                        System.out.println(cliente[clienteIndex]);
+                                        if (cliente[clienteIndex].getTemEmprestimo()) {
+                                            System.out.println(" - O cliente não pode ser excluído pois possui empréstimo ativo.");
+
+                                        } else {
+                                            System.out.println("\n - Deseja confirmar a exclusão (S)im ou (N)ão: ");
+                                            System.out.print(" -> ");
+                                            char opcConfirmar = scan.next().charAt(0);
+
+                                            if (opcConfirmar == 'S' || opcConfirmar == 's') {
+                                                cliente[clienteIndex] = null;
+                                                System.out.println(" - Cliente excluído com sucesso.");
+
+                                            } else {
+                                                System.out.println(" - Exclusão Cancelada. ");
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println(" - Cliente não encontrado.");
+                                    }
                                 }
                                 break;
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
                             case 3:
-                                System.out.println(" - Voltando para o menu principal.");
+                                System.out.println(" - Voltando para o menu Principal.");
                                 break;
 
                             default:
@@ -372,21 +394,19 @@ public class AppMenu {
                     break;
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-                case 3:
-                    System.out.print("\033[H\033[2J");
-                    System.out.flush();
-
+                case 3: // Registro de empréstimo e devolução
                     System.out.println("\n -=-=- Registro de Empréstimo e Devolução -=-=- ");
                     int opcEmp = 0;
                     do{
                         System.out.println("\n - Opções disponíveis: ");
                         System.out.println(" | 1 - Registrar Empréstimo");
                         System.out.println(" | 2 - Registrar Devolução");
-                        System.out.println(" | 3 - Voltar ao Menu Principa");
+                        System.out.println(" | 3 - Voltar ao Menu Principal");
 
                         System.out.print(" -> ");
                         while (!scan.hasNextInt()) {
                             System.out.println(" - Digite um número válido. ");
+                            System.out.print(" -> ");
                             scan.next();
                         }
                         opcEmp = scan.nextInt();
@@ -395,7 +415,22 @@ public class AppMenu {
                         switch (opcEmp) {
                             case 1: // Empréstimo de livros
                                 System.out.println("\n -=-=- Empréstimo de Livro -=-=- ");
-                                if(contadorEmp < emprestimo.length) {
+
+                                int contLivros = 0, contClientes = 0;
+                                for (Livros l : livro) if (l != null) contLivros++;
+                                for (Clientes c : cliente) if (c != null) contClientes++;
+                                if(contLivros == 0) {
+                                    System.out.println("\n - Nenhum livro cadastrado. ");
+                                    break;
+                                }
+
+                                if(contClientes == 0) {
+                                    System.out.println("\n - Nenhum cliente cadastrado. ");
+                                    break;
+                                }
+
+
+                                if (contadorEmp < emprestimo.length && contLivros > 0 && contClientes > 0) {
 
                                     int clienteId = -1, livroId = -1;
                                     int livroIndex = -1, clienteIndex = -1, emprestimoIndex = -1; //Variáveis que serão usadas para registrar os arrays
@@ -445,6 +480,7 @@ public class AppMenu {
                                         System.out.println("\n " + cliente[clienteIndex]);
                                         System.out.println("\n ---------------------------------------------------- \n");
                                         System.out.println("\n - Deseja confirmar o emprestimo (S)im ou (N)ão: ");
+                                        System.out.print(" -> ");
                                         char opcConfirmar = scan.next().charAt(0);
 
                                         if(opcConfirmar == 'S' || opcConfirmar == 's') { // Confirma o empréstimo
@@ -479,11 +515,16 @@ public class AppMenu {
                                 break;
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
                             case 2: //Devolução de Livros
-                                for (int i = 0; i < 100; i++) {
-                                    System.out.println();
+                                System.out.println("\n -=-=- Devolução de Livros -=-=- ");
+
+                                int contEmprestimos = 0;
+                                for (Emprestimos e : emprestimo) if (e != null) contEmprestimos++;
+
+                                if(contEmprestimos == 0) {
+                                    System.out.println("\n _ Nenhum empréstimo realizado. ");
                                 }
-                                System.out.println("\n -=-=- DEVOLUÇÃO DE LIVROS -=-=- ");
-                                if(contadorEmp > 0) {
+
+                                if(contadorEmp > 0 && contEmprestimos > 0) {
 
                                     int clienteId = -1;
                                     int clienteIndex = -1, emprestimoIndex = -1;
@@ -519,6 +560,7 @@ public class AppMenu {
                                             System.out.println(emprestimo[emprestimoIndex].getLivro());
                                             System.out.println("\n ------------------------------------------------ \n");
                                             System.out.println("\n - Deseja confirmar a devolução (S)im ou (N)ão: ");
+                                            System.out.print(" -> ");
                                             char opcConfirmar = scan.next().charAt(0);
 
                                             if (opcConfirmar == 'S' || opcConfirmar == 's') {
@@ -551,7 +593,7 @@ public class AppMenu {
                                 break;
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
                             case 3:
-                                System.out.println(" - Voltando para o menu principal.");
+                                System.out.println(" - Voltando para o menu Principal.");
                                 break;
 
                             default:
@@ -561,38 +603,163 @@ public class AppMenu {
                     } while (opcEmp != 3);
                     break;
 
-                case 7: //Lista de Clientes
-                    System.out.println(" -=-=- LISTAGEM DE USUÁRIOS DO SISTEMA -=-=- ");
-                    for (int i = 0; i < cliente.length; i++) {
-                        if (cliente[i] != null) {
-                            System.out.println(" ---------------------------------- \n");
-                            System.out.println(cliente[i].toString());
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                case 4: // Listagem dos cadastros
+                    System.out.println("\n -=-=- Listagem de Cadastros e Empréstimos -=-=- ");
+                    int opcLista = 0;
+                    do{
+                        System.out.println("\n - Opções disponíveis: ");
+                        System.out.println(" | 1 - Lista de Livros Cadastrados");
+                        System.out.println(" | 2 - Lista de Clientes Cadastrados");
+                        System.out.println(" | 3 - Lista de Empréstimos Ativos");
+                        System.out.println(" | 4 - Voltar ao Menu Principal");
+
+                        System.out.print(" -> ");
+                        while (!scan.hasNextInt()) {
+                            System.out.println(" - Digite um número válido. ");
+                            System.out.print(" -> ");
+                            scan.next();
                         }
-                    }
-                    System.out.println(" ---------------------------------- \n");
+                        opcLista = scan.nextInt();
+                        scan.nextLine();
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                        switch (opcLista) {
+                            case 1: // Listagem de livros
+
+                                System.out.println("\n -=-=- Listagem de Livros Cadsatrados -=-=- ");
+                                
+                                int contLivros = 0;
+                                for (Livros l : livro) if (l != null) contLivros++;
+                                if(contLivros > 0) {
+                                    for (int i = 0; i < livro.length; i++) {
+                                        if (livro[i] != null) {
+                                            System.out.println(" ---------------------------------- \n");
+                                            System.out.println(livro[i].toString());
+                                        }
+                                    }
+                                    System.out.println(" ---------------------------------- \n");
+                                } else {
+                                    System.out.println("\n - Nenhum livro cadastrado. ");
+                                }
+                                break;
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                            case 2: //Lista de Clientes
+                                
+                                System.out.println("\n -=-=- Listagem de Clietes Cadastrados -=-=- ");
+                                
+                                int contClientes = 0;
+                                for (Clientes c : cliente) if (c != null) contClientes++;
+                                if(contClientes > 0) {
+                                    for (int i = 0; i < cliente.length; i++) {
+                                        if (cliente[i] != null) {
+                                            System.out.println(" ---------------------------------- \n");
+                                            System.out.println(cliente[i].toString());
+                                        }
+                                    }
+                                    System.out.println(" ---------------------------------- \n");
+                                } else {
+                                    System.out.println("\n - Nenhum cliente cadastrado. ");
+                                }
+                                break;
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                            case 3: //Lista dos emprestimos ativos
+
+                                System.out.println("\n -=-=- Empréstimos Ativos -=-=- ");
+                                
+                                int contEmprestimos = 0;
+                                for (Emprestimos e : emprestimo) if (e != null) contEmprestimos++;
+                                if(contEmprestimos > 0) {
+                                    for (int i = 0; i < cliente.length; i++) {
+                                        if (cliente[i].getTemEmprestimo() == true) {
+                                            System.out.println(" ---------------------------------- \n");
+                                            System.out.println(cliente[i].toString());
+                                        }
+                                    }
+                                    System.out.println(" ---------------------------------- \n");
+                                } else {
+                                    System.out.println("\n - Nenhum emprestimo realizado. ");
+                                }
+                                break;
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                            case 4:
+                                System.out.println(" - Voltando para o menu Principal.");
+                                break;
+
+                            default:
+                                System.out.println(" - Opção inválida.");
+                        }
+
+                    } while (opcLista != 4);
                     break;
 
-                case 8: //Lista clientes com emprestimos ativos
-                    System.out.println(" -=-=- CLIENTES COM EMPRÉSTIMOS ATIVOS -=-=- ");
-                    for (int i = 0; i < cliente.length; i++) {
-                        if (cliente[i].getTemEmprestimo() == true) {
-                            System.out.println(" ---------------------------------- \n");
-                            System.out.println(cliente[i].toString());
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                case 5: //Salvar cadastros em arquivos de textos
+
+                    int contLivros = 0, contClientes = 0, contEmprestimos = 0;
+                    for (Livros l : livro) if (l != null) contLivros++;
+                    for (Clientes c : cliente) if (c != null) contClientes++;
+                    for (Emprestimos e : emprestimo) if (e != null) contEmprestimos++;
+                    System.out.println("\n -=-=- Salvando Cadastros e Empréstimos em Arquivos -=-=- ");
+
+                    try{
+                        FileWriter arquivo = new FileWriter("dadosBiblioteca.txt", true);
+                        PrintWriter gravarArquivo = new PrintWriter(arquivo);
+
+                        if(contLivros > 0) {
+                            // Grava os lirvos
+                            gravarArquivo.println(" -=-=-=- Livros Cadastrados -=-=-=- ");
+                            for (int i = 0; i < livro.length; i++) {
+                                if (livro[i] != null) {
+                                    gravarArquivo.println(livro[i].toString());
+                                    gravarArquivo.println(" ------------------------------------------------------- ");
+                                }
+                            }
+                        } else {
+                            System.out.println("\n - Nenhum livro cadastrado. ");
                         }
+
+                        if(contClientes > 0) {
+                            // Grava os clientes
+                            gravarArquivo.println(" -=-=-=- Clientes Cadastrados -=-=-=- ");
+                            for (int i = 0; i < cliente.length; i++) {
+                                if (cliente[i] != null) {
+                                    gravarArquivo.println(cliente[i].toString());
+                                    gravarArquivo.println(" ------------------------------------------------------- ");
+                                }
+                            }
+                        } else {
+                            System.out.println("\n - Nenhum cliente cadastrado. ");
+                        }
+
+                        if (contEmprestimos > 0) {
+                            // Grava os emprestimos ativos
+                            gravarArquivo.println(" -=-=-=- Empréstimos Ativos -=-=-=- ");
+                            for (int i = 0; i < emprestimo.length; i++) {
+                                if (emprestimo[i] != null) {
+                                    gravarArquivo.println(emprestimo[i].toString());
+                                    gravarArquivo.println(" ------------------------------------------------------- ");
+                                }
+                            }
+                        }else if (contEmprestimos < 0 && contClientes > 0 && contLivros > 0){
+                            System.out.println("\n - Nenhum empréstimo realizado. ");
+                        }
+
+                        gravarArquivo.close();
+                        arquivo.close();
+                        System.out.println("\n - Dados salvos com sucesso em \"dadosBiblioteca.txt\". ");
+                    } catch (IOException e) {
+                        System.out.println("\n - Erro ao salvar dados no arquivo. ");
                     }
-                    System.out.println(" ---------------------------------- \n");
                     break;
 
-                case 9: //Salvar cadastros em arquivos de textos
-
-                case 10: //Sair
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                case 6: //Sair
                     System.out.println("Saindo do sistema. Obrigado por utilizar o Sistema de Gerenciamento de Biblioteca!");
                     break;
 
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
-                    break;
             }
-        } while (opcMenu >= 9);
+        } while (opcMenu != 6);
     }    
 }

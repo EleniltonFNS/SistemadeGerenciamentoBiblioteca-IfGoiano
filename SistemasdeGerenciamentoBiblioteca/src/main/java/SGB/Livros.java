@@ -11,13 +11,17 @@ public class Livros {
   
   // Todo livro tem que ter id, titulo, autor, editora, ano que foi publicado e numero de exemplares;
   public Livros(int id_livro, String titulo, String autor, String editora, int ano_publi, int num_exemplares) {
-    this.id_livro = id_livro;
-    this.titulo = titulo;
-    this.autor = autor;
-    this.editora = editora;
-    this.ano_publi = ano_publi;
-    this.num_exemplares = num_exemplares;
-    this.num_exemp_disp = num_exemplares;
+    try {
+      this.id_livro = id_livro;
+      this.titulo = titulo;
+      this.autor = autor;
+      this.editora = editora;
+      this.ano_publi = ano_publi;
+      this.num_exemplares = num_exemplares;
+      this.num_exemp_disp = num_exemplares;
+    } catch (Exception e) {
+      System.out.println(" - Erro ao cadastrar livro. ");
+    }
   }
 
   public int getId_livro() {

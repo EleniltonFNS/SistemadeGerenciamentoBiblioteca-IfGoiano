@@ -10,13 +10,17 @@ public class Clientes {
     private Livros livroEmprestado;
     
     public Clientes (int idCliente, String nome, String email,String  cpf, String telefone) {
-        this.idCliente=idCliente;
-        this.nome=nome;
-        this.email=email;
-        this.cpf=cpf;
-        this.telefone=telefone;
-        this.temEmprestimo=false;
-        
+        try {
+            this.idCliente = idCliente;
+            this.nome = nome;
+            this.email = email;
+            this.cpf = cpf;
+            this.telefone = telefone;
+            this.temEmprestimo = false;
+            this.livroEmprestado = null;
+        } catch (Exception e) {
+            System.out.println(" - Erro ao cadastrar cliente. ");
+        }
     }
     
     public String getNome() {
@@ -36,18 +40,16 @@ public class Clientes {
         temEmprestimo = false;
         this.livroEmprestado = null;
     }
-    public int getIdLivro() {
-        return livroEmprestado.getId_livro();
-    }
+
     @Override
     public String toString (){
         if(!temEmprestimo) {
-            return " | ID: " + idCliente + "\n | Nome: " + nome + "\n | Email: " + email + "\n | CPF: " + cpf +
+            return " | ID Cliente: " + idCliente + "\n | Nome: " + nome + "\n | Email: " + email + "\n | CPF: " + cpf +
                     "\n | Telefone: " + telefone + "\n | Não possui empréstimo ativo.";
         } else {
-            return " | ID: " + idCliente + "\n | Nome: " + nome + "\n | Email: " + email + "\n | CPF: " + cpf +
+            return " | ID Cliente: " + idCliente + "\n | Nome: " + nome + "\n | Email: " + email + "\n | CPF: " + cpf +
                     "\n | Telefone: " + telefone + "\n --------------------------------" + "\n | Empréstimo ativo:" +
-                    "\n  | Título: " + livroEmprestado.get_Titulo() + "\n  | Id Livro: " + livroEmprestado.getId_livro();
+                    "\n | Título: " + livroEmprestado.get_Titulo() + " - Id Livro: " + livroEmprestado.getId_livro();
         }
     }
 }
