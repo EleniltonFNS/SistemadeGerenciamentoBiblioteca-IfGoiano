@@ -3,19 +3,22 @@ package SGB;
 import java.time.LocalDate;
 
 public class Emprestimos {
-    //Atributos
+//Atributos
     private Livros livro;
     private Clientes cliente;
     private LocalDate dataEmprestimo;
 
-    //Métodos
+//Métodos
+    // Registra um empréstimo, verificando a disponibilidade do livro e o status do cliente  
     public boolean registrarEmprestimo(Livros livro, Clientes cliente) {
         try {
             if (!cliente.getTemEmprestimo() && livro.get_num_exemp_disp() > 0) {
-                //Verifica se tem livro não está emprestado a alguem e se o usuário não tem nenhum livro empretado
+                // Verifica se o cliente não possui empréstimos ativos e se o livro está disponível
                 this.livro = livro;
                 this.cliente = cliente;
                 this.dataEmprestimo = LocalDate.now();
+
+                // Atualiza o status do cliente e a disponibilidade do livro
                 this.cliente.emprestimo_true(livro);
                 this.livro.atualizarNumExemp(-1);
                 return true; //Confirma que o emprestimo foi efetuado
@@ -30,13 +33,16 @@ public class Emprestimos {
         }
         return false;
     }
-
+    
+    // Registra a devolução de um livro, atualizando o status do cliente e a disponibilidade do livro
     public boolean registrarDevolucao(Clientes cliente) {
         try {
             if (cliente.getTemEmprestimo()) {
                 //Verifica se o livro está emprestado
                 this.cliente.emprestimo_false();
                 this.livro.atualizarNumExemp(1);
+
+                // Limpa as informações do empréstimo
                 this.livro = null;
                 this.cliente = null;
                 this.dataEmprestimo = null;
@@ -62,7 +68,8 @@ public class Emprestimos {
     public LocalDate getDataEmprestimo() {
         return dataEmprestimo;
     }
-
+    
+    // Retorna uma representação textual do empréstimo, incluindo detalhes do livro e cliente
     @Override
     public String toString() {
         return "\n | ID do Livro: " + livro.getId_livro() + " - Título: " + livro.get_Titulo() +
