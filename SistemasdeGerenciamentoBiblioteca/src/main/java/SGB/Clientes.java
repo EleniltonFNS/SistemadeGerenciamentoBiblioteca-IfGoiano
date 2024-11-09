@@ -46,7 +46,7 @@ public class Clientes { // Atributos, declaração das variaveis que irá recebe
     public String toString (){
         if(!temEmprestimo) { // Retorna os dados do cliente, caso ele não tenha algum empréstimo em seu nome
             return " | ID Cliente: " + idCliente + "\n | Nome: " + nome + "\n | Email: " + email + "\n | CPF: " + cpf +
-                    "\n | Telefone: " + telefone + "\n | Não possui empréstimo ativo.";
+                    "\n | Telefone: " + telefone + "\n | Não realizou empréstimo.";
             
         } else { // Retorna os dados do cliente junto ao titulo e Id do livro, caso ele tenha algum empréstimo em seu nome
             return " | ID Cliente: " + idCliente + "\n | Nome: " + nome + "\n | Email: " + email + "\n | CPF: " + cpf +
@@ -55,6 +55,3 @@ public class Clientes { // Atributos, declaração das variaveis que irá recebe
         }
     }
 }
-
-
-
